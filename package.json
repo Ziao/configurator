@@ -15,7 +15,7 @@
         "tokens": "chakra-cli tokens src/lib/app/theme.ts",
         "format": "prettier --write \"src/**/*.{ts,tsx,css,scss,json}\" \"index.html\"",
         "format:check": "prettier --check \"src/**/*.{ts,tsx,css,scss,json}\" \"index.html\"",
-        "api:generate": "openapi-generator-cli generate && yarn format",
+        "api:generate": "rm -rf src/api && openapi-generator-cli generate && yarn format",
         "prepare": "husky install && npm run tokens",
         "release:patch": "standard-version -r patch",
         "release:minor": "standard-version -r minor",

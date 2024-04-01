@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String?
+  components  component[]
+}
+
+model component {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  project     project             @relation(fields: [project_id], references: [id])
+  project_id  Int
+  parts       part[]
+  template    component_template? @relation(fields: [template_id], references: [id])
+  template_id Int?
+}
+
+model part {
+  id           Int       @id @default(autoincrement())
+  type         String
+  component    component @relation(fields: [component_id], references: [id])
+  component_id Int
+  features     feature[]
+}
+
+model feature {
+  id     Int    @id @default(autoincrement())
+  type   String // not enum, keep it flexible. UI handles shit
+  x      Int
+  y      Int
+  params Json   @default("{}")
+
+  part    part @relation(fields: [part_id], references: [id])
+  part_id Int
+}
+
+model component_template {
+  id         Int             @id @default(autoincrement())
+  name       String
+  components component[]
+  parts      part_template[]
+}
+
+model part_template {
+  id          Int                @id @default(autoincrement())
+  type        String
+  template    component_template @relation(fields: [template_id], references: [id])
+  template_id Int
+
+  // todo: work out
+}

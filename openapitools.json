@@ -7,7 +7,7 @@
             "ts": {
                 "generatorName": "typescript-axios",
                 "output": "./src/api",
-                "inputSpec": "http://localhost:5000/api-json",
+                "inputSpec": "http://localhost:4440/",
                 "openapi-normalizer": {
                     "SET_TAGS_FOR_ALL_OPERATIONS": "default"
                 },

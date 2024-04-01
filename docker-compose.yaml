@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  api:
+    image: postgrest/postgrest:v12.0.2
+    depends_on:
+      - db
+    ports:
+      - "4440:3000"
+    environment:
+      # https://postgrest.org/en/v12/references/configuration.html#list-of-parameters
+      PGRST_DB_URI: postgres://woodwyrm:woodwyrm@db:5432/woodwyrm
+      PGRST_OPENAPI_PROXY_URI: http://127.0.0.1:4440
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_DB_SCHEMAS: public
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "4442:8080"
+    expose:
+      - "8080"
+    environment:
+      API_URL: http://localhost:4440/
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: woodwyrm
+      POSTGRES_PASSWORD: woodwyrm
+      POSTGRES_DB: woodwyrm
+    ports:
+      - "4441:5432"
+    volumes:
+      - woodwyrm-db:/var/lib/postgresql/data
+
+volumes:
+    woodwyrm-db:
