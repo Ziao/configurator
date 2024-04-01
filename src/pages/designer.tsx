@@ -19,7 +19,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { cheetahSvg, dragonSvg, owlSvg } from "../assets/images/cheetah.ts";
 import { BoxRenderer } from "../components/engine/boxRenderer.tsx";
-import { createPart } from "../components/engine/createPart.ts";
+import { createPart } from "../lib/engine/parts/createPart.ts";
 import { PartConfig } from "../components/engine/partConfig.tsx";
 import { DefaultLayout } from "../components/layouts/DefaultLayout.tsx";
 import { BoxDefinition, BoxShape, GridFeatureType, PartType, WallSide } from "../types/boxDefinition.ts";

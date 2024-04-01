@@ -1,5 +1,5 @@
 import { BoxDefinition, GridFeatureType, PartType } from "../../types/boxDefinition.ts";
-import { createWall } from "./createWall.ts";
+import { createWall } from "./parts/createWall.ts";
 import { applyDrawSlot } from "./features/applyDrawSlot.ts";
 import { applyGraphic } from "./features/applyGraphic.ts";
 import { packShapes } from "./packShapes.ts";

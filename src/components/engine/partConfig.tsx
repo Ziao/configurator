@@ -11,11 +11,14 @@ import {
     HStack,
     Input,
     Select,
+    Stack,
     Switch,
+    Tag,
+    Wrap,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { BoxDefinition, Part } from "../../types/boxDefinition.ts";
+import { BoxDefinition, GridFeatureType, Part } from "../../types/boxDefinition.ts";
 
 interface PartConfigProps {
     part: Part;
@@ -32,27 +35,34 @@ export const PartConfig: FC<PartConfigProps> = ({ part, register, partIndex }) =
                 <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-                <HStack>
-                    <FormControl>
-                        <FormLabel>Grid rows</FormLabel>
-                        <Input type="number" step={1} {...register(`parts.${partIndex}.gridWidth`)} />
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Grid columns</FormLabel>
-                        <Input type="number" step={1} {...register(`parts.${partIndex}.gridHeight`)} />
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Behavior</FormLabel>
-                        <Select
-                            {...register(`parts.${partIndex}.gridWallOffset`, {
-                                setValueAs: (value) => value === "true",
-                            })}
-                        >
-                            <option value={"false"}>Grid starts at part edge</option>
-                            <option value={"true"}>Grid respects wall thickness</option>
-                        </Select>
-                    </FormControl>
-                </HStack>
+                <Stack>
+                    <HStack>
+                        <FormControl>
+                            <FormLabel>Grid rows</FormLabel>
+                            <Input type="number" step={1} {...register(`parts.${partIndex}.gridWidth`)} />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Grid columns</FormLabel>
+                            <Input type="number" step={1} {...register(`parts.${partIndex}.gridHeight`)} />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Behavior</FormLabel>
+                            <Select
+                                {...register(`parts.${partIndex}.gridWallOffset`, {
+                                    setValueAs: (value) => value === "true",
+                                })}
+                            >
+                                <option value={"false"}>Grid starts at part edge</option>
+                                <option value={"true"}>Grid respects wall thickness</option>
+                            </Select>
+                        </FormControl>
+                    </HStack>
+                    <HStack>
+                        {part.gridFeatures.map((feature, featureIndex) => (
+                            <Tag key={featureIndex}>{feature.type}</Tag>
+                        ))}
+                    </HStack>
+                </Stack>
             </AccordionPanel>
         </AccordionItem>
     );

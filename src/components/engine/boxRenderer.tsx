@@ -1,11 +1,10 @@
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { FC, useEffect, useRef } from "react";
-import { createBox } from "../../lib/engine/createBox.ts";
 import { BoxDefinition } from "../../types/boxDefinition.ts";
-import { AspectRatio, Box, Button, chakra, Icon, Stack } from "@chakra-ui/react";
+import { Box, Button, chakra, Icon, Stack } from "@chakra-ui/react";
 import paper from "paper";
-import { downloadSvg } from "./downloadSvg.ts";
-import { generateShapes } from "./generateShapes.ts";
+import { downloadSvg } from "../../lib/engine/util/downloadSvg.ts";
+import { generateShapes } from "../../lib/engine/generateShapes.ts";
 
 // 1px = 1mm, which is is a DPI of 25.4
 const zoomMultiplier = 72 / 25.4;

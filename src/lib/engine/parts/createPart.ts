@@ -1,4 +1,4 @@
-import { Part, PartType } from "../../types/boxDefinition.ts";
+import { Part, PartType } from "../../../types/boxDefinition.ts";
 import paper from "paper";
 
 export const createPart = (type: PartType, partial?: Partial<Part>) => {

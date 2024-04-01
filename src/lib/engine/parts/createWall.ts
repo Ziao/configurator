@@ -1,6 +1,6 @@
 import paper, { Path } from "paper";
-import { BoxDefinition, Part, WallSide } from "../../types/boxDefinition.ts";
-import { punchSlots } from "./punchSlotsNew.ts";
+import { BoxDefinition, Part, WallSide } from "../../../types/boxDefinition.ts";
+import { punchSlots } from "../punchSlotsNew.ts";
 
 export const createWall = (box: BoxDefinition, part: Part) => {
     if (!part.side) throw new Error("Wall part must have a side");
