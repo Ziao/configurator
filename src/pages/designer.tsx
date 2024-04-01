@@ -1,9 +1,8 @@
 import {
-    Box,
+    Accordion,
     Card,
     CardBody,
     CardHeader,
-    chakra,
     Container,
     FormControl,
     FormLabel,
@@ -15,25 +14,26 @@ import {
     Text,
     Wrap,
 } from "@chakra-ui/react";
-import { FC, useEffect, useRef } from "react";
+import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
+import { cheetahSvg, dragonSvg, owlSvg } from "../assets/images/cheetah.ts";
 import { BoxRenderer } from "../components/engine/boxRenderer.tsx";
-import { UploadBox } from "../components/files/UploadBox.tsx";
+import { createPart } from "../components/engine/createPart.ts";
+import { PartConfig } from "../components/engine/partConfig.tsx";
 import { DefaultLayout } from "../components/layouts/DefaultLayout.tsx";
-import { createBox } from "../lib/engine/createBox.ts";
-import { BoxDefinition, BoxShape } from "../types/boxDefinition.ts";
+import { BoxDefinition, BoxShape, GridFeatureType, PartType, WallSide } from "../types/boxDefinition.ts";
 
-interface HomeProps {}
-export const Home: FC<HomeProps> = () => {
+interface DesignerProps {}
+export const Designer: FC<DesignerProps> = () => {
     const { register, watch } = useForm<BoxDefinition>({
         defaultValues: {
             shape: BoxShape.rectangle,
             materialThickness: 3.4,
-            width: 60,
-            depth: 90,
-            height: 40,
-            maxPackWidth: 4000,
+            width: 150,
+            depth: 100,
+            height: 50,
+            maxPackWidth: 400,
             innerWalls: [],
             slotLength: 8,
             hasLid: false,
@@ -41,6 +41,68 @@ export const Home: FC<HomeProps> = () => {
             hasOuterWall: false,
             hasCardAssist: false,
             hasStackableBottom: false,
+            parts: [
+                createPart(PartType.wall, {
+                    side: WallSide.front,
+                    gridFeatures: [
+                        {
+                            type: GridFeatureType.graphic,
+                            x: 1,
+                            y: 1,
+                            graphic: {
+                                fit: "contain",
+                                padding: 10,
+                                type: "vector",
+                                operation: "subtract",
+                                svgContent: dragonSvg,
+                            },
+                        },
+                    ],
+                }),
+                createPart(PartType.wall, {
+                    side: WallSide.back,
+                    gridFeatures: [
+                        {
+                            type: GridFeatureType.graphic,
+                            x: 1,
+                            y: 1,
+                            graphic: {
+                                fit: "contain",
+                                padding: 10,
+                                type: "vector",
+                                operation: "outline",
+                                svgContent: owlSvg,
+                            },
+                        },
+                    ],
+                }),
+                createPart(PartType.wall, {
+                    side: WallSide.left,
+                    gridFeatures: [
+                        {
+                            type: GridFeatureType.graphic,
+                            x: 1,
+                            y: 1,
+                            graphic: {
+                                fit: "contain",
+                                padding: 10,
+                                type: "vector",
+                                operation: "engrave",
+                                svgContent: cheetahSvg,
+                            },
+                        },
+                    ],
+                }),
+                createPart(PartType.wall, {
+                    side: WallSide.right,
+                    gridFeatures: [
+                        {
+                            type: GridFeatureType.drawSlot,
+                        },
+                    ],
+                }),
+                createPart(PartType.bottom),
+            ],
         },
     });
 
@@ -50,7 +112,7 @@ export const Home: FC<HomeProps> = () => {
                 <Stack gap={4}>
                     <Card>
                         <CardHeader>
-                            <Heading size={"md"}>Box creator</Heading>
+                            <Heading size={"md"}>Definition</Heading>
                         </CardHeader>
                         <CardBody>
                             <form>
@@ -107,6 +169,7 @@ export const Home: FC<HomeProps> = () => {
                                             />
                                         </FormControl>
                                     </HStack>
+
                                     <FormControl>
                                         <FormLabel>Features</FormLabel>
                                         <Wrap spacing={10}>
@@ -139,24 +202,37 @@ export const Home: FC<HomeProps> = () => {
 
                     <Card>
                         <CardHeader>
-                            <Heading size={"md"}>Graphics</Heading>
+                            <Heading size={"md"}>Part config</Heading>
                         </CardHeader>
                         <CardBody>
-                            <HStack>
-                                <UploadBox
-                                    label={"Lid"}
-                                    accept={{
-                                        "image/svg+xml": [".svg"],
-                                    }}
-                                />
-                                <UploadBox label={"Front"} />
-                                <UploadBox label={"Back"} />
-                                <UploadBox label={"Left"} />
-                                <UploadBox label={"Right"} />
-                                <UploadBox label={"Bottom"} />
-                            </HStack>
+                            <Accordion allowToggle>
+                                {watch("parts").map((part, index) => (
+                                    <PartConfig partIndex={index} part={part} key={index} register={register} />
+                                ))}
+                            </Accordion>
                         </CardBody>
                     </Card>
+
+                    {/*<Card>*/}
+                    {/*    <CardHeader>*/}
+                    {/*        <Heading size={"md"}>Graphics</Heading>*/}
+                    {/*    </CardHeader>*/}
+                    {/*    <CardBody>*/}
+                    {/*        <HStack>*/}
+                    {/*            <UploadBox*/}
+                    {/*                label={"Lid"}*/}
+                    {/*                accept={{*/}
+                    {/*                    "image/svg+xml": [".svg"],*/}
+                    {/*                }}*/}
+                    {/*            />*/}
+                    {/*            <UploadBox label={"Front"} />*/}
+                    {/*            <UploadBox label={"Back"} />*/}
+                    {/*            <UploadBox label={"Left"} />*/}
+                    {/*            <UploadBox label={"Right"} />*/}
+                    {/*            <UploadBox label={"Bottom"} />*/}
+                    {/*        </HStack>*/}
+                    {/*    </CardBody>*/}
+                    {/*</Card>*/}
 
                     <Card>
                         <CardHeader>

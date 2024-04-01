@@ -6,15 +6,16 @@ import { Link } from "react-router-dom";
 interface NavbarProps {}
 export const Navbar: FC<NavbarProps> = ({}) => {
     return (
-        <Box background={`rgba(255, 255, 255, 0.6)`} pos={"sticky"} top={0} zIndex={20} shadow={"sm"}>
+        <Box background={"white"} pos={"sticky"} top={0} zIndex={20} shadow={"sm"}>
             <Container>
                 <HStack height={16}>
                     <Icon as={InboxIcon} boxSize={6} />
                     <Text fontWeight={"bold"} mr={4}>
-                        Boxer
+                        WoodWyrm
                     </Text>
 
-                    {/*<Link to={"/"}>Home</Link>*/}
+                    <Link to={"/"}>Creator</Link>
+                    <Link to={"/designer"}>Designer</Link>
 
                     <Spacer />
 

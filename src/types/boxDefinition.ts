@@ -18,7 +18,10 @@ export interface BoxDefinition {
     hasLid: boolean;
     hasLidInset: boolean;
     hasOuterWall: boolean;
+    hasStackableBottom: boolean;
     hasCardAssist: boolean;
+
+    parts: Part[];
 }
 
 export interface InnerWall {
@@ -46,3 +49,64 @@ export enum WallSide {
 //     wallInset = "wallInset",
 //     cardAssist = "cardAssist",
 // }
+
+export enum PartType {
+    lidTop = "lidTop",
+    lidBottom = "lidBottom",
+    bottom = "bottom",
+    bottomStackable = "bottomStackable",
+    wall = "wall",
+    wallOuter = "wallOuter",
+    // leftWall = "leftWall",
+    // leftWallOuter = "leftWallOuter",
+    // rightWall = "rightWall",
+    // rightWallOuter = "rightWallOuter",
+    // frontWall = "frontWall",
+    // frontWallOuter = "frontWallOuter",
+    // backWall = "backWall",
+    // backWallOuter = "backWallOuter",
+}
+
+export interface Part {
+    type: PartType;
+    side?: WallSide;
+    enabled: boolean;
+    gridWallOffset: boolean; // Does the grid start at the very edge or do we respect the wall thickness?
+    gridWidth: number;
+    gridHeight: number;
+    gridFeatures: GridFeature[];
+    // gridInsets: GridInset[];
+    // path?: paper.PathItem;
+    // The first child should ALWAYS be the main path
+    group: paper.Group;
+}
+
+export interface GridFeature {
+    x: number;
+    y: number;
+    type: GridFeatureType;
+    graphic?: Graphic;
+    // text?: Text;
+}
+
+export enum GridFeatureType {
+    // Engrave or cut a graphic
+    graphic = "graphic",
+    // Engrave a text
+    text = "text",
+    // Cut out a slot for easy drawing of cards
+    drawSlot = "drawSlot",
+}
+
+export interface Graphic {
+    // part: PartType;
+    type: "vector" | "image";
+    svgContent?: string;
+    scale?: number;
+    fit?: "contain" | "cover";
+    padding?: number;
+    offsetX?: number;
+    offsetY?: number;
+    rotation?: number;
+    operation: "subtract" | "engrave" | "outline";
+}
