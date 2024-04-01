@@ -34,7 +34,7 @@ export const BoxRenderer: FC<BoxRendererProps> = ({ definition }) => {
     return (
         <Stack>
             <Box overflow={"scroll"} h={"500px"}>
-                <chakra.canvas w={`${definition.maxPackWidth * zoomMultiplier}px`} h={"500"} ref={canvas} />
+                <chakra.canvas w={`${definition.maxPackWidth * zoomMultiplier}px`} h={"5000"} ref={canvas} />
             </Box>
             <Button colorScheme={"teal"} onClick={() => downloadSvg()} leftIcon={<Icon as={ArrowDownTrayIcon} />}>
                 Download SVG

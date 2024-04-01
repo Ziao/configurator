@@ -14,47 +14,53 @@ export const applyGraphic = (box: BoxDefinition, part: Part, feature: GridFeatur
     graphic.scale(2, [0, 0]);
 
     const graphicPaths = extractAndFlattenPaths(graphic, false);
-    const graphicsGroup = new paper.Group(graphicPaths);
-    graphicsGroup.scale(0.01, [0, 0]);
     graphic.remove();
+
+    // const graphicsGroup = new paper.Group(graphicPaths);
+    // graphicsGroup.scale(0.01, [0, 0]);
+
+    let compound = new paper.CompoundPath(graphicPaths);
 
     let path = part.group.children[0] as Path | Shape;
 
     switch (feature.graphic.fit) {
         case "contain":
             // fitContain(graphicPath, path, feature.graphic.padding ?? 0);
-            fitContain(graphicsGroup, path, feature.graphic.padding ?? 0);
+            fitContain(compound, path, feature.graphic.padding ?? 0);
+            if (feature.graphic.scale) compound.scale(feature.graphic.scale);
             break;
         case "cover":
             // fitCover(graphicPath, path, feature.graphic.padding ?? 0);
-            fitCover(graphicsGroup, path, feature.graphic.padding ?? 0);
+            compound = fitCover(compound, path, feature.graphic.padding ?? 0, true, feature.graphic.scale);
             break;
         default:
             // Simply center it
-            alignCenterHorizontal(path, graphicPath);
-            alignCenterVertical(path, graphicPath);
+            alignCenterHorizontal(path, compound);
+            alignCenterVertical(path, compound);
+            if (feature.graphic.scale) compound.scale(feature.graphic.scale);
+            break;
     }
 
     switch (feature.graphic.operation) {
         case "subtract":
-            graphicPaths.forEach((graphicPath) => {
-                const newPath = path.subtract(graphicPath);
-                path.replaceWith(newPath);
-                path = newPath;
-            });
-            graphicsGroup.remove();
+            const newPath = path.subtract(compound);
+            compound.remove();
+            path.replaceWith(newPath);
+            path = newPath;
+
             break;
         case "engrave":
-            graphicsGroup.fillColor = "blue";
-            graphicsGroup.strokeWidth = 0;
-            part.group.addChild(graphicsGroup);
+            // graphicsGroup.fillColor = "#aaaaaa";
+            // graphicsGroup.strokeWidth = 0;
+            compound.fillColor = "#aaaaaa";
+            compound.strokeWidth = 0;
+            part.group.addChild(compound);
             break;
         case "outline":
-            console.log("outline");
-            graphicsGroup.strokeColor = "green";
-            graphicsGroup.strokeWidth = 0.5;
-            graphicsGroup.fillColor = null;
-            part.group.addChild(graphicsGroup);
+            compound.strokeColor = "#ffaaaa";
+            compound.strokeWidth = 0.5;
+            compound.fillColor = null;
+            part.group.addChild(compound);
             break;
         default:
             console.warn(`🚨 Operation ${feature.graphic.operation} not implemented`);

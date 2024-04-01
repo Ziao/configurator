@@ -57,6 +57,7 @@ export enum PartType {
     bottomStackable = "bottomStackable",
     wall = "wall",
     wallOuter = "wallOuter",
+    cardAssist = "cardAssist",
     // leftWall = "leftWall",
     // leftWallOuter = "leftWallOuter",
     // rightWall = "rightWall",
@@ -82,18 +83,19 @@ export interface Part {
 }
 
 export interface GridFeature {
+    enabled: boolean;
     x: number;
     y: number;
     type: GridFeatureType;
     graphic?: Graphic;
-    // text?: Text;
+    text?: string; // todo: conver to featureparams or something
 }
 
 export enum GridFeatureType {
     // Engrave or cut a graphic
     graphic = "graphic",
-    // Engrave a text
-    text = "text",
+    // Engrave a text -> cancelled, texts dont convert to paths
+    // text = "text",
     // Cut out a slot for easy drawing of cards
     drawSlot = "drawSlot",
 }
@@ -102,7 +104,7 @@ export interface Graphic {
     // part: PartType;
     type: "vector" | "image";
     svgContent?: string;
-    scale?: number;
+    scale?: number; // Applied after the other calculations, before the operation
     fit?: "contain" | "cover";
     padding?: number;
     offsetX?: number;

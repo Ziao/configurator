@@ -17,9 +17,9 @@ import {
 import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { cheetahSvg, dragonSvg, owlSvg } from "../assets/images/cheetah.ts";
+import { cheetahSvg, dragonSvg, owlSvg, patternSvg } from "../assets/images/cheetah.ts";
 import { BoxRenderer } from "../components/engine/boxRenderer.tsx";
-import { createPart } from "../lib/engine/parts/createPart.ts";
+import { createPartDefinition } from "../lib/engine/parts/createPartDefinition.ts";
 import { PartConfig } from "../components/engine/partConfig.tsx";
 import { DefaultLayout } from "../components/layouts/DefaultLayout.tsx";
 import { BoxDefinition, BoxShape, GridFeatureType, PartType, WallSide } from "../types/boxDefinition.ts";
@@ -30,10 +30,10 @@ export const Designer: FC<DesignerProps> = () => {
         defaultValues: {
             shape: BoxShape.rectangle,
             materialThickness: 3.4,
-            width: 150,
-            depth: 100,
-            height: 50,
-            maxPackWidth: 400,
+            width: 57 + 3.4 * 2 + 4,
+            depth: 57 + 3.4 * 2 + 4,
+            height: 40,
+            maxPackWidth: 300,
             innerWalls: [],
             slotLength: 8,
             hasLid: false,
@@ -42,10 +42,11 @@ export const Designer: FC<DesignerProps> = () => {
             hasCardAssist: false,
             hasStackableBottom: false,
             parts: [
-                createPart(PartType.wall, {
+                createPartDefinition(PartType.wall, {
                     side: WallSide.front,
                     gridFeatures: [
                         {
+                            enabled: false,
                             type: GridFeatureType.graphic,
                             x: 1,
                             y: 1,
@@ -59,10 +60,11 @@ export const Designer: FC<DesignerProps> = () => {
                         },
                     ],
                 }),
-                createPart(PartType.wall, {
+                createPartDefinition(PartType.wall, {
                     side: WallSide.back,
                     gridFeatures: [
                         {
+                            enabled: false,
                             type: GridFeatureType.graphic,
                             x: 1,
                             y: 1,
@@ -76,10 +78,11 @@ export const Designer: FC<DesignerProps> = () => {
                         },
                     ],
                 }),
-                createPart(PartType.wall, {
+                createPartDefinition(PartType.wall, {
                     side: WallSide.left,
                     gridFeatures: [
                         {
+                            enabled: false,
                             type: GridFeatureType.graphic,
                             x: 1,
                             y: 1,
@@ -91,17 +94,67 @@ export const Designer: FC<DesignerProps> = () => {
                                 svgContent: cheetahSvg,
                             },
                         },
+                        {
+                            enabled: true,
+                            type: GridFeatureType.drawSlot,
+                        },
+                        // {
+                        //     enabled: true,
+                        //     type: GridFeatureType.graphic,
+                        //     graphic: {
+                        //         operation: "subtract",
+                        //         fit: "cover",
+                        //         svgContent: patternSvg,
+                        //         padding: 10,
+                        //         scale: 10,
+                        //     },
+                        // },
                     ],
                 }),
-                createPart(PartType.wall, {
+                createPartDefinition(PartType.wall, {
                     side: WallSide.right,
                     gridFeatures: [
                         {
+                            enabled: true,
                             type: GridFeatureType.drawSlot,
                         },
                     ],
                 }),
-                createPart(PartType.bottom),
+                createPartDefinition(PartType.bottom),
+                createPartDefinition(PartType.lidTop, {
+                    gridFeatures: [
+                        {
+                            enabled: true,
+                            type: GridFeatureType.graphic,
+                            graphic: {
+                                operation: "subtract",
+                                fit: "cover",
+                                svgContent: patternSvg,
+                                padding: 10,
+                                scale: 4,
+                            },
+                        },
+                    ],
+                }),
+                createPartDefinition(PartType.lidBottom),
+                createPartDefinition(PartType.bottomStackable),
+                createPartDefinition(PartType.cardAssist, {
+                    gridFeatures: [
+                        {
+                            enabled: true,
+                            type: GridFeatureType.graphic,
+                            x: 1,
+                            y: 1,
+                            graphic: {
+                                fit: "contain",
+                                padding: 5,
+                                type: "vector",
+                                operation: "engrave",
+                                svgContent: owlSvg,
+                            },
+                        },
+                    ],
+                }),
             ],
         },
     });

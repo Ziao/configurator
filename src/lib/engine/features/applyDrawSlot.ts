@@ -51,6 +51,6 @@ export const applyDrawSlot = (box: BoxDefinition, part: Part, feature: GridFeatu
     path = newPath;
 
     // This seems to work perfectly for now but the indexes may not always work?
-    smoothCorner(path, 5, radius);
-    smoothCorner(path, 1, radius);
+    smoothCorner(path, 5, radius / 2);
+    smoothCorner(path, 1, radius / 2);
 };
