@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../app/queryClient.ts";
-import { Todo } from "../queries/useTodosQuery.ts";
+import { Todo } from "../queries/useProjectsQuery.ts";
 
 export const useAddTodoMutation = () => {
     return useMutation({

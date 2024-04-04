@@ -14,8 +14,10 @@ export const Navbar: FC<NavbarProps> = ({}) => {
                         WoodWyrm
                     </Text>
 
+                    <Link to={"/"}>Projects</Link>
                     <Link to={"/"}>Creator</Link>
                     <Link to={"/designer"}>Designer</Link>
+                    <Link to={"/viewer"}>Viewer</Link>
 
                     <Spacer />
 
