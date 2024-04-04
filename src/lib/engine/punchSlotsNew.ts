@@ -23,7 +23,7 @@ export const punchSlots = ({
     let newPath = path;
 
     for (let i = 0; i < numSlots; i++) {
-        let draw = mode == "even" ? i % 2 === 0 : i % 2 !== 0;
+        const draw = mode == "even" ? i % 2 === 0 : i % 2 !== 0;
         if (!draw) continue;
 
         const centerPoint = start.add(lineVector.normalize().multiply(i * actualSlotLength + actualSlotLength / 2));
@@ -35,7 +35,7 @@ export const punchSlots = ({
             rotation: lineVector.angle,
         });
 
-        let oldPath = newPath;
+        const oldPath = newPath;
         newPath = newPath.subtract(rect);
         oldPath.remove();
         rect.remove();

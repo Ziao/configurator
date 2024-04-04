@@ -1,5 +1,5 @@
-import { Box, Button, Container, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
-import { InboxIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
+import { Box, Container, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
+import { InboxIcon } from "@heroicons/react/24/outline";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
@@ -14,10 +14,10 @@ export const Navbar: FC<NavbarProps> = ({}) => {
                         WoodWyrm
                     </Text>
 
-                    <Link to={"/"}>Projects</Link>
-                    <Link to={"/"}>Creator</Link>
-                    <Link to={"/designer"}>Designer</Link>
-                    <Link to={"/viewer"}>Viewer</Link>
+                    {/*<Link to={"/"}>Projects</Link>*/}
+                    {/*<Link to={"/"}>Creator</Link>*/}
+                    {/*<Link to={"/designer"}>Designer</Link>*/}
+                    {/*<Link to={"/viewer"}>Viewer</Link>*/}
 
                     <Spacer />
 

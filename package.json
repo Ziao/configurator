@@ -19,7 +19,8 @@
         "prepare": "husky install && npm run tokens",
         "release:patch": "standard-version -r patch",
         "release:minor": "standard-version -r minor",
-        "release:major": "standard-version -r major"
+        "release:major": "standard-version -r major",
+        "circular": "madge --ts-config tsconfig.json --circular src/main.tsx"
     },
     "prettier": {
         "printWidth": 120,
@@ -114,6 +115,7 @@
         "happy-dom": "^14.3.9",
         "husky": "^9.0.11",
         "lint-staged": "^15.2.2",
+        "madge": "^6.1.0",
         "prettier": "^3.2.5",
         "prisma": "^5.11.0",
         "standard-version": "^9.5.0",

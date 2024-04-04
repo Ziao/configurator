@@ -31,6 +31,6 @@ export const smoothCorner = (path: paper.Path, cornerIndex: number, radius: numb
 
     // Insert the new points and handle to create the smooth corner
     const newSegment = path.insert(cornerIndex, prevNewPoint);
-    newSegment.handleOut = toPrev.rotate(-180).normalize(radius);
+    newSegment.handleOut = toPrev.rotate(-180, [0.5, 0.5]).normalize(radius);
     path.insert(cornerIndex + 1, nextNewPoint);
 };

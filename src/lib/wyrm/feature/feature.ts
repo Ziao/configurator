@@ -5,15 +5,17 @@ export enum FeatureType {
 interface BaseFeature {
     type: FeatureType;
     gridCell?: [number, number];
-    params: never;
+    params: unknown;
+}
+
+interface DrawSlotParams {
+    bottomOffset: number;
+    width: number;
 }
 
 export interface DrawSlotFeature extends BaseFeature {
     type: FeatureType.drawSlot;
-    params: {
-        bottomOffset: number;
-        width: number; // usually 20, width of a finger
-    };
+    params: DrawSlotParams;
 }
 
 // todo: graphic

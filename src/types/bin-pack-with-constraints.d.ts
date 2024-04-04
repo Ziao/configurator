@@ -4,7 +4,7 @@ declare module "bin-pack-with-constraints" {
         height: number;
         x: number;
         y: number;
-        part: any;
+        part: unknown;
     }
 
     export interface PackOptions {

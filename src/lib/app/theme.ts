@@ -76,7 +76,7 @@ export const theme = extendTheme({
                     borderRadius: "lg",
                     p: 6,
                 },
-                header: { p: 0, pb: 6 },
+                header: { p: 0, pb: 6, mb: 6, borderBottom: "1px solid", borderColor: "gray.200" },
                 body: { p: 0 },
                 // footer: { p: 8, pt: 0 },
             },

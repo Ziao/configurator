@@ -10,7 +10,7 @@ interface UploadBoxProps extends Partial<DropzoneOptions> {
     onClear?: () => void;
 }
 export const UploadBox: FC<UploadBoxProps> = ({ currentFile, isError, label, onClear, ...options }) => {
-    const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
         maxFiles: 1,
         ...options,
     });

@@ -1,4 +1,4 @@
-import { BoxDefinition, WallSide } from "../../types/boxDefinition.ts";
+// import { BoxDefinition, WallSide } from "../../types/boxDefinition.ts";
 
 // export const createBasicParts = (definition: BoxDefinition): PartDefinition[] => {
 //     const parts: PartDefinition[] = [];
