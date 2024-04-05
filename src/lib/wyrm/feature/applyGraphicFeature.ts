@@ -34,6 +34,10 @@ export const applyGraphicFeature = (component: Component, part: Part, feature: G
     if (feature.params.scaleMultiplier) graphic.scale(feature.params.scaleMultiplier);
     if (feature.params.rotation) graphic.rotate(feature.params.rotation);
     if (feature.params.mirror) graphic.scale(-1, 1);
+    if (feature.params.offset) {
+        graphic.position.x += feature.params.offset[0] * bounds.width;
+        graphic.position.y += feature.params.offset[1] * bounds.height;
+    }
 
     // If a mask is needed (eg, cover), create it and intersect it with the graphic
     if (needsMask) {

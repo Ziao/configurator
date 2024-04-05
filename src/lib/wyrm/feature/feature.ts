@@ -32,6 +32,8 @@ export interface GraphicFeature extends BaseFeature {
         width?: number;
         height?: number;
 
+        offset?: [number, number]; // [x, y] offset from the center of the part, where 1 is the full width/height
+
         /**
          * If set, the final graphic will be scaled by this multiplier
          * Especially useful for fit: cover, and you want a bit of a bleed

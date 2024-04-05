@@ -18,10 +18,10 @@ interface BoxParams {
     width: number;
     depth: number;
     height: number;
-    hasLid: boolean;
-    hasClosedTop: boolean;
-    hasStackable: boolean;
-    hasCardAssist: boolean;
+    // hasLid: boolean;
+    // hasClosedTop: boolean;
+    // hasStackable: boolean;
+    // hasCardAssist: boolean;
 }
 
 export interface BoxComponent extends BaseComponent {
