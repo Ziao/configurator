@@ -1,15 +1,17 @@
 import { createGrid } from "../grid/grid.ts";
 import { PartType, RectanglePart } from "./types.ts";
+import { v4 } from "uuid";
 
 export const createRectanglePart = (config: Partial<RectanglePart>): RectanglePart => {
     const part = {
-        id: config.id || "rectangle",
+        uuid: v4(),
+        id: "rectangle",
         type: PartType.rectangle,
-        slots: config.slots || [],
-        width: config.width || 100,
-        height: config.height || 100,
-        grid: config.grid || createGrid({}),
-        features: config.features || [],
+        slots: [],
+        width: 100,
+        height: 100,
+        grid: createGrid({}),
+        features: [],
         ...config,
     };
 

@@ -9,6 +9,7 @@ import { renderComponent } from "../../lib/wyrm/renderers/renderComponent.ts";
 
 // 1px = 1mm, which is is a DPI of 25.4
 const zoomMultiplier = 72 / 25.4;
+// const zoomMultiplier = 1;
 
 interface ComponentRendererProps {
     project: Project;
@@ -22,32 +23,23 @@ export const ComponentRenderer: FC<ComponentRendererProps> = ({ project, compone
         if (didSetup.current) return;
         if (!canvas.current) return;
 
-        console.log("Paper setup");
         paper.setup(canvas.current);
-        // paper.view.scale(zoomMultiplier, new paper.Point(0, 0));
+        paper.view.scale(zoomMultiplier, new paper.Point(0, 0));
         // Ensure that strokes are hairlines, regardless of zoom level
-        paper.project.currentStyle.strokeScaling = false;
+        paper.project.currentStyle.strokeScaling = true;
         didSetup.current = true;
     }, []);
 
     useEffect(() => {
         paper.view.viewSize = new paper.Size(project.sheetWidth * zoomMultiplier, 5000);
-        paper.view.scale(zoomMultiplier, new paper.Point(0, 0));
-
-        // Clear an render everything!
         paper.project.activeLayer.removeChildren();
-
         renderComponent(project, component);
     }, [project, component]);
 
     return (
         <Stack>
             <Box overflow={"scroll"} h={"500px"}>
-                <chakra.canvas
-                    // w={`${project.sheetWidth * zoomMultiplier}px`}
-                    // h={"5000"}
-                    ref={canvas}
-                />
+                <chakra.canvas ref={canvas} />
             </Box>
             <Button colorScheme={"teal"} onClick={() => downloadSvg()} leftIcon={<Icon as={ArrowDownTrayIcon} />}>
                 Download SVG

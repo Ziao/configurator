@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Container, Heading, HStack, Select, Stack, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { DefaultLayout } from "../components/layouts/DefaultLayout.tsx";
@@ -8,15 +8,15 @@ import { projects } from "../projects";
 
 interface ViewerProps {}
 export const Viewer: FC<ViewerProps> = ({}) => {
-    const { watch, register, resetField } = useForm<{ projectId: string; componentId: string }>({
-        defaultValues: {
-            projectId: projects[0]?.id,
-            componentId: projects[0]?.components[0]?.id,
-        },
-    });
+    const { watch, register, resetField, setValue } = useForm<{ projectId: string; componentId: string }>({});
 
     const project = projects.find((project) => project.id === watch("projectId"));
     const component = project?.components.find((component) => component.id === watch("componentId"));
+
+    useEffect(() => {
+        setValue("projectId", projects[0]?.id);
+        setValue("componentId", projects[0]?.components[0]?.id);
+    }, [setValue]);
 
     return (
         <DefaultLayout>
@@ -38,8 +38,6 @@ export const Viewer: FC<ViewerProps> = ({}) => {
                                     {project.name}
                                 </option>
                             ))}
-                            {/*<option value="option1">Option 1</option>*/}
-                            {/*<option value="option2">Option 2</option>*/}
                         </Select>
                         {/*Component selector*/}
                         <Select
@@ -57,6 +55,7 @@ export const Viewer: FC<ViewerProps> = ({}) => {
                             ))}
                         </Select>
                     </HStack>
+
                     {project && (
                         <Card>
                             <CardHeader>
@@ -74,7 +73,7 @@ export const Viewer: FC<ViewerProps> = ({}) => {
                                 </CardBody>
                             )}
 
-                            {project && component && (
+                            {component && (
                                 <CardBody>
                                     <ErrorBoundary
                                         fallbackRender={({ error }) => <Text>{error.message}</Text>}

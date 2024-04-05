@@ -6,8 +6,9 @@ export interface Grid {
 
 export const createGrid = (config: Partial<Grid>): Grid => {
     return {
-        width: config.width || 1,
-        height: config.height || 1,
-        offsets: config.offsets || [0, 0, 0, 0],
+        width: 1,
+        height: 1,
+        offsets: [0, 0, 0, 0],
+        ...config,
     };
 };

@@ -1,10 +1,10 @@
 declare module "bin-pack-with-constraints" {
-    export interface PackableItem {
+    export interface PackableItem<T> {
         width: number;
         height: number;
         x: number;
         y: number;
-        part: unknown;
+        item: T;
     }
 
     export interface PackOptions {

@@ -1,7 +1,6 @@
 import { Box, Container, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
 import { InboxIcon } from "@heroicons/react/24/outline";
 import { FC } from "react";
-import { Link } from "react-router-dom";
 
 interface NavbarProps {}
 export const Navbar: FC<NavbarProps> = ({}) => {
@@ -11,7 +10,7 @@ export const Navbar: FC<NavbarProps> = ({}) => {
                 <HStack height={16}>
                     <Icon as={InboxIcon} boxSize={6} />
                     <Text fontWeight={"bold"} mr={4}>
-                        WoodWyrm
+                        WoodWyrm designer
                     </Text>
 
                     {/*<Link to={"/"}>Projects</Link>*/}

@@ -12,6 +12,7 @@ export enum PartType {
  *
  */
 export interface BasePart {
+    uuid: string;
     id: string; // Used to identify the part
     type: PartType;
     slots: SlotConfig[];
@@ -24,6 +25,8 @@ export interface RectanglePart extends BasePart {
     type: PartType.rectangle;
     width: number;
     height: number;
+    radius?: number;
+    insetOffset?: number;
     grid: Grid;
     features: Feature[];
 }
