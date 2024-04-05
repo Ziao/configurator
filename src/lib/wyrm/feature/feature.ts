@@ -5,7 +5,7 @@ export enum FeatureType {
 
 interface BaseFeature {
     type: FeatureType;
-    gridCell?: [number, number];
+    gridCell?: [number, number]; // will throw an error if the part has no grid
     params: unknown;
 }
 
@@ -26,6 +26,7 @@ export interface GraphicFeature extends BaseFeature {
         operation: "cut" | "engrave" | "score";
         fit: "contain" | "cover" | "center";
         rotation?: number;
+        mirror?: boolean;
 
         // None or one of these should be set, if both are set, height will take precedence
         width?: number;

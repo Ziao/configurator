@@ -23,6 +23,9 @@ const caveBox = createBoxComponent({
 });
 
 const lid = caveBox.parts.find((p) => p.id === "lid")!;
+lid.grid.width = 2;
+lid.grid.spacing = 10;
+lid.grid.offsets = [10, 10, 10, 10];
 
 // todo: createFeature?
 lid.features.push({
@@ -33,6 +36,18 @@ lid.features.push({
         operation: "cut",
         fit: "center",
         height: 20,
+    },
+} as GraphicFeature);
+
+lid.features.push({
+    type: "graphic",
+    gridCell: [1, 0],
+    params: {
+        svgString: seahorseSvg,
+        operation: "cut",
+        fit: "center",
+        height: 20,
+        mirror: true,
     },
 } as GraphicFeature);
 

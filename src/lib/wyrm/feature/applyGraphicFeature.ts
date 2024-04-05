@@ -1,6 +1,7 @@
 import { importSvgGroup } from "../../engine/util/importSvgGroup.ts";
 import { Color } from "../colors.ts";
 import { Component } from "../component/types.ts";
+import { getGridCellBounds } from "../grid/grid.ts";
 import { Part } from "../part/types.ts";
 import { Project } from "../project/project.ts";
 import { GraphicFeature } from "./feature.ts";
@@ -11,7 +12,7 @@ export const applyGraphicFeature = (component: Component, part: Part, feature: G
     if (!feature.params.svgString) throw new Error("Feature does not have svgString");
 
     // Todo: based on GRID
-    const bounds = group.bounds;
+    const bounds = part.grid && feature.gridCell ? getGridCellBounds(part, feature.gridCell) : group.bounds;
     let needsMask = false;
 
     const graphicGroup = importSvgGroup(feature.params.svgString);
@@ -32,6 +33,7 @@ export const applyGraphicFeature = (component: Component, part: Part, feature: G
     if (feature.params.height) graphic.scale(feature.params.height / graphic.bounds.height);
     if (feature.params.scaleMultiplier) graphic.scale(feature.params.scaleMultiplier);
     if (feature.params.rotation) graphic.rotate(feature.params.rotation);
+    if (feature.params.mirror) graphic.scale(-1, 1);
 
     // If a mask is needed (eg, cover), create it and intersect it with the graphic
     if (needsMask) {
