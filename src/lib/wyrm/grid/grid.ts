@@ -12,6 +12,7 @@ export const createGrid = (config: Partial<Grid>): Grid => {
     return {
         width: 1,
         height: 1,
+        // todo: single offset number for all sides?
         offsets: [0, 0, 0, 0],
         spacing: 0,
         ...config,
@@ -21,8 +22,6 @@ export const createGrid = (config: Partial<Grid>): Grid => {
 /**
  * Get the bounds of a single cell in a grid.
  * Considers offset (top, right, bottom, left) and spacing between cells.
- * @param grid
- * @param cell
  */
 export const getGridCellBounds = (part: Part, cell: [number, number]): paper.Rectangle => {
     if (!part.grid) throw new Error("Part does not have a grid");

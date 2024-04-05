@@ -18,6 +18,7 @@ interface BoxParams {
     width: number;
     depth: number;
     height: number;
+    slotLength?: number;
     // hasLid: boolean;
     // hasClosedTop: boolean;
     // hasStackable: boolean;

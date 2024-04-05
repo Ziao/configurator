@@ -3,16 +3,14 @@ import {
     createBottom,
     createBoxComponent,
     createCardAssist,
-    createClosedTop,
     createFrontWall,
     createInnerLid,
     createLeftWall,
     createLid,
     createRightWall,
-    createStackable,
 } from "../../lib/wyrm/component/createBoxComponent.ts";
-import { GraphicFeature } from "../../lib/wyrm/feature/feature.ts";
-import { createGrid } from "../../lib/wyrm/grid/grid.ts";
+import { createDrawslotFeature } from "../../lib/wyrm/feature/drawslotFeature.ts";
+import { createGraphicFeature } from "../../lib/wyrm/feature/graphicFeature.ts";
 import { createProject } from "../../lib/wyrm/project/project.ts";
 import seahorseSvg from "./seahorse.svg?raw";
 
@@ -22,41 +20,36 @@ export const wyrmspan = createProject({
     sheetWidth: 300,
 });
 
-const caveBox = createBoxComponent({
+// Cave cards
+const caveBox = createBoxComponent(wyrmspan, {
     name: "Cave Box",
     params: {
         width: 80,
         depth: 80,
         height: 40,
+        slotLength: 10,
     },
 });
 
 createBottom(caveBox);
-// createClosedTop(caveBox);
 createLeftWall(caveBox);
 createRightWall(caveBox);
-createFrontWall(caveBox);
+createFrontWall(caveBox, {
+    features: [createDrawslotFeature({})],
+});
 createBackWall(caveBox);
-// createStackable(caveBox);
 createLid(caveBox, {
-    // grid: createGrid({
-    //     width: 2,
-    // }),
     features: [
-        {
-            type: "graphic",
-            gridCell: [0, 0],
+        createGraphicFeature({
             params: {
                 svgString: seahorseSvg,
                 operation: "cut",
                 fit: "center",
-                height: 50,
-                offset: [-0.05, 0],
+                height: 30,
+                offset: [-0.025, 0],
             },
-        } as GraphicFeature,
+        }),
     ],
 });
 createInnerLid(caveBox);
 createCardAssist(caveBox);
-
-wyrmspan.components.push(caveBox);

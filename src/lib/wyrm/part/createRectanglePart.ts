@@ -10,7 +10,9 @@ export const createRectanglePart = (config: Partial<RectanglePart>): RectanglePa
         slots: [],
         width: 100,
         height: 100,
-        grid: createGrid({}),
+        grid: createGrid({
+            offsets: [0, 0, 0, 0], // todo: material thickness
+        }),
         features: [],
         ...config,
     };

@@ -1,11 +1,13 @@
+import paper from "paper";
 import { punchSlots } from "../../engine/punchSlotsNew.ts";
 import { Component } from "../component/types.ts";
-import { applyGraphicFeature } from "../feature/applyGraphicFeature.ts";
+import { renderDrawslotFeature } from "../feature/drawslotFeature.ts";
+import { FeatureType } from "../feature/feature.ts";
+import { renderGraphicFeature } from "../feature/graphicFeature.ts";
 import { Part, PartType } from "../part/types.ts";
 import { Project } from "../project/project.ts";
 import { packParts } from "../util/packParts.ts";
 import { renderRectanglePart } from "./renderRectanglePart.ts";
-import paper from "paper";
 
 export const renderComponent = (project: Project, component: Component) => {
     console.log("Rendering component", component);
@@ -61,10 +63,14 @@ const renderFeatures = (component: Component, part: Part, group: paper.Group) =>
     part.features.forEach((feature) => {
         console.log("    Applying feature", feature);
         switch (feature.type) {
-            case "graphic":
-                applyGraphicFeature(component, part, feature, group);
+            case FeatureType.graphic:
+                renderGraphicFeature(component, part, feature, group);
+                break;
+            case FeatureType.drawSlot:
+                renderDrawslotFeature(component, part, feature, group);
                 break;
             default:
+                // @ts-ignore
                 throw new Error(`⚠️ Unknown feature type: ${feature.type}`);
         }
     });
