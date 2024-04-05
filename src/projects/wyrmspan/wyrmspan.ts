@@ -23,6 +23,7 @@ export const wyrmspan = createProject({
 // Cave cards
 const caveBox = createBoxComponent(wyrmspan, {
     name: "Cave Box",
+    materialThickness: 3.3,
     params: {
         width: 80,
         depth: 80,
@@ -37,7 +38,9 @@ createRightWall(caveBox);
 createFrontWall(caveBox, {
     features: [createDrawslotFeature({})],
 });
-createBackWall(caveBox);
+createBackWall(caveBox, {
+    features: [createDrawslotFeature({})],
+});
 createLid(caveBox, {
     features: [
         createGraphicFeature({

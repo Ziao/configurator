@@ -10,7 +10,7 @@ import paper from "paper";
 export interface DrawSlotFeature extends BaseFeature {
     type: FeatureType.drawSlot;
     params: {
-        bottomOffset: number;
+        rounded?: boolean;
         width: number;
     };
 }
@@ -20,8 +20,8 @@ export const createDrawslotFeature = (config?: DeepPartial<DrawSlotFeature>): Dr
     gridCell: [0, 0],
     ...config,
     params: {
-        bottomOffset: 0,
-        width: 20,
+        width: 25,
+        rounded: true,
         ...config?.params,
     },
 });
@@ -42,7 +42,7 @@ export const renderDrawslotFeature = (
     //     // Todo: configurable
     const width = feature.params.width;
     const height = bounds.height; //- box.materialThickness * 2;
-    const radius = feature.params.width / 2;
+    const radius = feature.params.rounded ? feature.params.width / 2 : 0;
 
     // Main slot, with rounded corners
     const slotRect = new paper.Path.Rectangle({
@@ -62,20 +62,23 @@ export const renderDrawslotFeature = (
     slotRect.remove();
     path.replaceWith(newPath);
     path = newPath;
-    // A little extra rectangle to mitigate the top radius of the previous rectangle
-    const slotTop = new paper.Path.Rectangle({
-        width,
-        height: radius,
-        fillColor: "black",
-    });
 
-    alignCenterVertical(path, slotTop);
-    alignTop(path, slotTop);
+    if (feature.params.rounded) {
+        // A little extra rectangle to mitigate the top radius of the previous rectangle
+        const slotTop = new paper.Path.Rectangle({
+            width,
+            height: radius,
+            fillColor: "black",
+        });
 
-    newPath = path.subtract(slotTop);
-    slotTop.remove();
-    path.replaceWith(newPath);
-    path = newPath;
+        alignCenterVertical(path, slotTop);
+        alignTop(path, slotTop);
+
+        newPath = path.subtract(slotTop);
+        slotTop.remove();
+        path.replaceWith(newPath);
+        path = newPath;
+    }
 
     // This seems to work perfectly for now but the indexes may not always work?
     smoothCorner(path as paper.Path, 5, radius / 2);

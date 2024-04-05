@@ -4,6 +4,7 @@ export const createSlots = (length: number, thickness: number, slotLength: numbe
     let numSlots = length / slotLength;
 
     if (slotLength < 5) throw new Error("Slot length must be greater than 5");
+    if (slotLength <= thickness) throw new Error("Slot length must be greater than thickness");
 
     // Todo: make this a configurable strategy (grow, shrink, even, odd)
     // Round numSlots up or down, whichever is odd to add symmetry

@@ -99,13 +99,14 @@ export const createLid = (boxComponent: BoxComponent, config?: Partial<Rectangle
 };
 
 export const createInnerLid = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
-    const offset = (boxComponent.materialThickness + 1) * 2;
+    // An extra millimeter of space for the inner lid to account for inaccuracies in the material
+    const offset = boxComponent.materialThickness + 1;
     const innerLid = createRectanglePart({
         id: "innerLid",
         width: boxComponent.params.width - offset,
         height: boxComponent.params.depth - offset,
         radius: boxComponent.materialThickness,
-        insetOffset: 3,
+        // insetOffset: 3,
         ...config,
     });
     boxComponent.parts.push(innerLid);
