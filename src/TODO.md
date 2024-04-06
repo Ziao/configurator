@@ -6,6 +6,9 @@
 - [ ] Implement lid textile sandwich thingy
 - [ ] Scale canvas height automatically based on packed parts
 - [ ] See if we can still move to a single object for project definition, dependencies can be resolved during render (such as slots, thicknesses, etc)
+- [x] confirm that drawslots work well with dividers (they dont)
+- [ ] fix rounding of drawslots, dont rely on node index
+- [ ] fix positioning of drawlots when placed on a grid
 
 ## Component types
 - [x] Box
@@ -14,7 +17,7 @@
 - [x] Graphic
 - [x] Drawslot
 - [ ] Text
-- [ ] Inner walls on a grid
+- [x] Inner walls on a grid
 - [ ] Hinges?
 
 ## Project ideas

@@ -68,6 +68,7 @@ const renderFeatures = (component: Component, part: Part, group: paper.Group) =>
                 renderGraphicFeature(component, part, feature, group);
                 break;
             case FeatureType.drawSlot:
+                // console.warn("    Skipping drawslot feature");
                 renderDrawslotFeature(component, part, feature, group);
                 break;
             default:

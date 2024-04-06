@@ -82,5 +82,5 @@ export const renderDrawslotFeature = (
 
     // This seems to work perfectly for now but the indexes may not always work?
     smoothCorner(path as paper.Path, 2, radius / 2);
-    smoothCorner(path as paper.Path, 7, radius / 2);
+    smoothCorner(path as paper.Path, 8, radius / 2);
 };

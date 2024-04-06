@@ -13,7 +13,7 @@ export const createGrid = (config: Partial<Grid>): Grid => {
         width: 1,
         height: 1,
         // todo: single offset number for all sides?
-        offsets: [0, 0, 0, 0],
+        offsets: [5, 5, 5, 5],
         spacing: 0,
         ...config,
     };
