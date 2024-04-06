@@ -115,7 +115,7 @@ export const createInnerLid = (boxComponent: BoxComponent, config?: Partial<Rect
 };
 
 export const createStackable = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
-    const offset = (boxComponent.materialThickness + 1) * 2;
+    const offset = boxComponent.materialThickness * 2 + 0.5;
     const stackable = createRectanglePart({
         id: "stackable",
         width: boxComponent.params.width - offset,

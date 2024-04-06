@@ -1,11 +1,12 @@
 import { DeepPartial } from "@chakra-ui/react";
-import { alignCenterVertical, alignTop } from "../../engine/util/alignment.ts";
-import { smoothCorner } from "../../engine/util/smoothCorner.ts";
+import { alignCenterHorizontal, alignCenterVertical, alignTop } from "../../engine/util/alignment.ts";
+import { drawArcFromRadiusAndAngle, roundPathCorner, smoothCorner } from "../../engine/util/smoothCorner.ts";
 import { Component } from "../component/types.ts";
 import { getGridCellBounds } from "../grid/grid.ts";
 import { Part } from "../part/types.ts";
+import { roundSegment } from "../util/roundSegment.ts";
 import { BaseFeature, FeatureType } from "./feature.ts";
-import paper from "paper";
+import paper, { Path } from "paper";
 
 export interface DrawSlotFeature extends BaseFeature {
     type: FeatureType.drawSlot;
@@ -35,52 +36,45 @@ export const renderDrawslotFeature = (
     const bounds = part.grid && feature.gridCell ? getGridCellBounds(part, feature.gridCell) : group.bounds;
 
     // Top bounds are ALWAYS 0, no matter the grid offset,  otherwise a drawslot makes no sense
-    // bounds.top = 0;
+    bounds.top = 0;
 
     let path = group.children[0] as paper.PathItem;
 
-    //     // Todo: configurable
     const width = feature.params.width;
-    const height = bounds.height; //- box.materialThickness * 2;
+    const height = bounds.height;
     const radius = feature.params.rounded ? feature.params.width / 2 : 0;
+    const halfRadius = radius / 2;
 
-    // Main slot, with rounded corners
-    const slotRect = new paper.Path.Rectangle({
-        // width: path.bounds.width - paddingX * 2,
-        // height: path.bounds.height - paddingY,
-        width,
-        height,
-        // x: path.bounds.x + paddingX,
-        // y: path.bounds.y,
-        radius,
-        fillColor: "black",
+    const shape = new paper.Path({
+        strokeColor: "green",
+        strokeWidth: 0.00001,
+        // fillColor: "black",
     });
+    shape.fullySelected = true;
+    // Imagine a big T shape with rounded corners where it matters
+    // the center (0, 0) is the center of the T, underneath the top bar of the T
+    shape.moveTo([-height, -width]); // Top left
+    shape.lineTo([height, -width]); // Top right
+    shape.lineTo([height, 0]);
+    shape.lineTo([width / 2, 0]);
+    shape.lineTo([width / 2, height]);
+    shape.lineTo([-width / 2, height]);
+    shape.lineTo([-width / 2, 0]);
+    shape.lineTo([-height, 0]);
+    shape.closePath();
 
-    alignCenterVertical(path, slotRect);
-    alignTop(path, slotRect);
-    let newPath = path.subtract(slotRect);
-    slotRect.remove();
+    roundSegment(shape, 3, halfRadius);
+    roundSegment(shape, 5, radius);
+    roundSegment(shape, 7, radius);
+    roundSegment(shape, 9, halfRadius);
+
+    shape.bounds.center.x = bounds.center.x;
+    // alignCenterVertical(bounds, shape);
+    // alignCenterHorizontal(path, shape);
+
+    const newPath = path.subtract(shape);
+    shape.remove();
     path.replaceWith(newPath);
-    path = newPath;
-
-    if (feature.params.rounded) {
-        // A little extra rectangle to mitigate the top radius of the previous rectangle
-        const slotTop = new paper.Path.Rectangle({
-            width,
-            height: radius,
-            fillColor: "black",
-        });
-
-        alignCenterVertical(path, slotTop);
-        alignTop(path, slotTop);
-
-        newPath = path.subtract(slotTop);
-        slotTop.remove();
-        path.replaceWith(newPath);
-        path = newPath;
-    }
-
-    // This seems to work perfectly for now but the indexes may not always work?
-    smoothCorner(path as paper.Path, 2, radius / 2);
-    smoothCorner(path as paper.Path, 8, radius / 2);
+    // path = newPath;
+    // group.addChild(shape);
 };

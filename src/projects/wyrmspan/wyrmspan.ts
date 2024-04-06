@@ -36,7 +36,7 @@ const caveBox = createBoxComponent(wyrmspan, {
 
 createBottom(caveBox, {
     grid: createGrid({
-        width: 3,
+        width: 2,
         height: 1,
     }),
 });
@@ -44,18 +44,25 @@ createLeftWall(caveBox);
 createRightWall(caveBox);
 createFrontWall(caveBox, {
     grid: createGrid({
-        width: 3,
+        width: 2,
         height: 1,
+        spacing: caveBox.materialThickness,
+        offsets: [
+            caveBox.materialThickness,
+            caveBox.materialThickness,
+            caveBox.materialThickness,
+            caveBox.materialThickness,
+        ],
     }),
     features: [
         createDrawslotFeature({
             gridCell: [0, 0],
             params: {
-                width: 10,
+                width: 30,
             },
         }),
         createGraphicFeature({
-            gridCell: [2, 0],
+            gridCell: [1, 0],
             params: {
                 svgString: seahorseSvg,
                 operation: "score",
@@ -83,5 +90,5 @@ createBackWall(caveBox, {
 //     ],
 // });
 createInnerLid(caveBox);
-// createCardAssist(caveBox);
+createCardAssist(caveBox);
 createDividers(caveBox);

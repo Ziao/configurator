@@ -4,6 +4,7 @@ import paper from "paper";
 import { FC, useEffect, useRef } from "react";
 import { downloadSvg } from "../../lib/engine/util/downloadSvg.ts";
 import { Component } from "../../lib/wyrm/component/types.ts";
+import { roundingTest } from "../../lib/wyrm/feature/drawslotFeature.ts";
 import { Project } from "../../lib/wyrm/project/project.ts";
 import { renderComponent } from "../../lib/wyrm/renderers/renderComponent.ts";
 
@@ -34,6 +35,7 @@ export const ComponentRenderer: FC<ComponentRendererProps> = ({ project, compone
         paper.view.viewSize = new paper.Size(project.sheetWidth * zoomMultiplier, 5000);
         paper.project.activeLayer.removeChildren();
         renderComponent(project, component);
+        // roundingTest();
     }, [project, component]);
 
     return (
