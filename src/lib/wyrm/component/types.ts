@@ -18,6 +18,7 @@ interface BoxParams {
     width: number;
     depth: number;
     height: number;
+    dividerHeight?: number; // if not set, uses height. bottom / closedTop thickness is automatically subtracted
     slotLength?: number;
     // hasLid: boolean;
     // hasClosedTop: boolean;

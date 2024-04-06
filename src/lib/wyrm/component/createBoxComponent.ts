@@ -3,7 +3,8 @@ import { createGrid } from "../grid/grid.ts";
 import { createRectanglePart } from "../part/createRectanglePart.ts";
 import { Part, RectanglePart } from "../part/types.ts";
 import { createSlotConfig } from "../slot/slotConfig.ts";
-import { componentHasPart } from "../util/componentHasPart.ts";
+import { componentGetPart, componentHasPart } from "../util/componentHasPart.ts";
+import { copyAndAlterObject } from "../util/copyAndAlterObject.ts";
 import { createComponent } from "./component.ts";
 import { BoxComponent, ComponentType } from "./types.ts";
 import { Project } from "../project/project.ts";
@@ -100,7 +101,7 @@ export const createLid = (boxComponent: BoxComponent, config?: Partial<Rectangle
 
 export const createInnerLid = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
     // An extra millimeter of space for the inner lid to account for inaccuracies in the material
-    const offset = boxComponent.materialThickness + 1;
+    const offset = boxComponent.materialThickness * 2 + 0.5;
     const innerLid = createRectanglePart({
         id: "innerLid",
         width: boxComponent.params.width - offset,
@@ -281,4 +282,162 @@ export const createBackWall = (boxComponent: BoxComponent, config?: Partial<Rect
     const wall = createFrontWall(boxComponent, config);
     wall.id = "backWall";
     return wall;
+};
+
+/**
+ * Create dividers for the box. Relies on the bottom part having a grid
+ * Call this as the last step after creating all other parts, so it can punch holes in the walls
+ * @param boxComponent
+ * @param config
+ */
+export const createDividers = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
+    const bottomPart = componentGetPart<RectanglePart>(boxComponent, "bottom", true);
+    const grid = bottomPart.grid;
+    const thickness = boxComponent.materialThickness;
+    const dividerHeightNoCompensation = boxComponent.params.dividerHeight ?? boxComponent.params.height - thickness;
+
+    if (!grid) throw new Error("Bottom part does not have a grid");
+    if (grid.width <= 1 && grid.height <= 1) throw new Error("Grid is too small to create dividers");
+
+    const horizontalDividers = grid.height - 1;
+    const verticalDividers = grid.width - 1;
+
+    // let dividerHeight = boxComponent.params.dividerHeight ?? boxComponent.params.height;
+    const topNeedsCompensation =
+        componentHasPart(boxComponent, "closedTop") || componentHasPart(boxComponent, "innerLid");
+
+    const dividerHeight = topNeedsCompensation ? dividerHeightNoCompensation - thickness : dividerHeightNoCompensation;
+
+    const slotsStartY = topNeedsCompensation ? -thickness : 0;
+    const slotsEndY = topNeedsCompensation ? dividerHeightNoCompensation - thickness : dividerHeight;
+
+    // Vertical slot config from the top of the walls to the start of the bottom, we deal with the compensation later
+    const slots = createSlotConfig({
+        start: [0, 0],
+        end: [0, dividerHeightNoCompensation],
+        thickness,
+        even: false,
+        amount: 2,
+        length: dividerHeightNoCompensation,
+    });
+
+    // Positions for slots along the width of the box (front wall)
+    const horizontalSlotPositions = calculateSlotPositions(boxComponent.params.width, thickness, verticalDividers);
+
+    // Positions for slots along the depth of the box (left wall)
+    const verticalSlotPositions = calculateSlotPositions(boxComponent.params.depth, thickness, horizontalDividers);
+
+    // Find the left and right wall and add slots
+    [
+        componentGetPart<RectanglePart>(boxComponent, "leftWall", true),
+        componentGetPart<RectanglePart>(boxComponent, "rightWall", true),
+    ].forEach((wall) =>
+        wall.slots.push(
+            ...verticalSlotPositions.map((pos) =>
+                copyAndAlterObject(slots, {
+                    start: [pos, 0],
+                    end: [pos, dividerHeightNoCompensation],
+                    even: true,
+                }),
+            ),
+        ),
+    );
+
+    // Find the front and back wall and add slots
+    [
+        componentGetPart<RectanglePart>(boxComponent, "frontWall", true),
+        componentGetPart<RectanglePart>(boxComponent, "backWall", true),
+    ].forEach((wall) =>
+        wall.slots.push(
+            ...horizontalSlotPositions.map((pos) =>
+                copyAndAlterObject(slots, {
+                    start: [pos, 0],
+                    end: [pos, dividerHeightNoCompensation],
+                    even: true,
+                }),
+            ),
+        ),
+    );
+
+    for (let i = 0; i < horizontalDividers; i++) {
+        const divider = createRectanglePart({
+            id: `divider-h-${i + 1}`,
+            width: boxComponent.params.width,
+            height: dividerHeight,
+            ...config,
+        });
+
+        divider.slots.push(
+            copyAndAlterObject(slots, {
+                start: [thickness / 2, slotsStartY],
+                end: [thickness / 2, slotsEndY],
+            }),
+            copyAndAlterObject(slots, {
+                start: [boxComponent.params.width - thickness / 2, slotsStartY],
+                end: [boxComponent.params.width - thickness / 2, slotsEndY],
+            }),
+        );
+
+        divider.slots.push(
+            ...horizontalSlotPositions.map((pos) =>
+                copyAndAlterObject(slots, {
+                    start: [pos, slotsStartY],
+                    end: [pos, slotsEndY],
+                    even: true,
+                }),
+            ),
+        );
+
+        boxComponent.parts.push(divider);
+    }
+
+    for (let i = 0; i < verticalDividers; i++) {
+        const divider = createRectanglePart({
+            id: `divider-v-${i + 1}`,
+            width: boxComponent.params.depth,
+            height: dividerHeight,
+            ...config,
+        });
+
+        divider.slots.push(
+            copyAndAlterObject(slots, {
+                start: [thickness / 2, slotsStartY],
+                end: [thickness / 2, slotsEndY],
+            }),
+            copyAndAlterObject(slots, {
+                start: [boxComponent.params.depth - thickness / 2, slotsStartY],
+                end: [boxComponent.params.depth - thickness / 2, slotsEndY],
+            }),
+        );
+
+        divider.slots.push(
+            ...verticalSlotPositions.map((pos) =>
+                copyAndAlterObject(slots, {
+                    start: [pos, slotsStartY],
+                    end: [pos, slotsEndY],
+                    even: false,
+                }),
+            ),
+        );
+
+        boxComponent.parts.push(divider);
+    }
+};
+
+/**
+ * Calculate the positions of slots for a given length, thickness and amount
+ * @param length Total length of the divider, including overlap with the walls
+ * @param thickness Thickness of the material
+ * @param amount Amount of DIVIDERS to create, not grid slots
+ */
+const calculateSlotPositions = (length: number, thickness: number, amount: number) => {
+    const positions: number[] = [];
+    const innerLength = length - thickness * 2;
+    const interval = innerLength / (amount + 1);
+
+    for (let i = 1; i <= amount; i++) {
+        positions.push(thickness + interval * i);
+    }
+
+    return positions;
 };

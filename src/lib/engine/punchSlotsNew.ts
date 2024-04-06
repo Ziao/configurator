@@ -7,6 +7,7 @@ export const punchSlots = ({
     slotLength,
     thickness,
     mode,
+    amount,
 }: {
     path: paper.PathItem;
     start: paper.Point;
@@ -14,10 +15,17 @@ export const punchSlots = ({
     slotLength: number;
     thickness: number;
     mode: "even" | "odd";
+    amount?: number;
 }) => {
     if (slotLength < 5) throw new Error("Slot length must be greater than 5");
     const lineVector = end.subtract(start);
-    const { numSlots, actualSlotLength } = getNumSlots(lineVector.length, slotLength);
+    let { numSlots, actualSlotLength } = getNumSlots(lineVector.length, slotLength);
+
+    if (amount) {
+        numSlots = amount;
+        actualSlotLength = lineVector.length / numSlots;
+    }
+
     const rectangleSize = new paper.Size(actualSlotLength, thickness);
 
     let newPath = path;

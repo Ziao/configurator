@@ -18,11 +18,11 @@ export const renderComponent = (project: Project, component: Component) => {
         // Render base part shape
         const group = renderBaseShape(project, component, part);
 
-        // Punch slots
-        renderSlots(part, group);
-
         // Apply features
         renderFeatures(component, part, group);
+
+        // Punch slots
+        renderSlots(part, group);
 
         return group;
     });
@@ -55,6 +55,7 @@ const renderSlots = (part: Part, group: paper.Group) => {
             mode: slot.even ? "even" : "odd",
             thickness: slot.thickness,
             slotLength: slot.length,
+            amount: slot.amount,
         });
     });
 };

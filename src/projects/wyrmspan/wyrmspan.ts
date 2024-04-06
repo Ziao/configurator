@@ -3,6 +3,7 @@ import {
     createBottom,
     createBoxComponent,
     createCardAssist,
+    createDividers,
     createFrontWall,
     createInnerLid,
     createLeftWall,
@@ -11,6 +12,7 @@ import {
 } from "../../lib/wyrm/component/createBoxComponent.ts";
 import { createDrawslotFeature } from "../../lib/wyrm/feature/drawslotFeature.ts";
 import { createGraphicFeature } from "../../lib/wyrm/feature/graphicFeature.ts";
+import { createGrid } from "../../lib/wyrm/grid/grid.ts";
 import { createProject } from "../../lib/wyrm/project/project.ts";
 import seahorseSvg from "./seahorse.svg?raw";
 
@@ -23,36 +25,42 @@ export const wyrmspan = createProject({
 // Cave cards
 const caveBox = createBoxComponent(wyrmspan, {
     name: "Cave Box",
-    materialThickness: 3.3,
+    materialThickness: 3.4,
     params: {
         width: 80,
-        depth: 80,
-        height: 40,
+        depth: 40,
+        height: 20,
         slotLength: 10,
     },
 });
 
-createBottom(caveBox);
+createBottom(caveBox, {
+    grid: createGrid({
+        width: 3,
+        height: 2,
+    }),
+});
 createLeftWall(caveBox);
 createRightWall(caveBox);
 createFrontWall(caveBox, {
-    features: [createDrawslotFeature({})],
+    // features: [createDrawslotFeature({})],
 });
 createBackWall(caveBox, {
-    features: [createDrawslotFeature({})],
+    // features: [createDrawslotFeature({})],
 });
-createLid(caveBox, {
-    features: [
-        createGraphicFeature({
-            params: {
-                svgString: seahorseSvg,
-                operation: "cut",
-                fit: "center",
-                height: 30,
-                offset: [-0.025, 0],
-            },
-        }),
-    ],
-});
+// createLid(caveBox, {
+//     features: [
+//         createGraphicFeature({
+//             params: {
+//                 svgString: seahorseSvg,
+//                 operation: "cut",
+//                 fit: "center",
+//                 height: 30,
+//                 offset: [-0.025, 0],
+//             },
+//         }),
+//     ],
+// });
 createInnerLid(caveBox);
-createCardAssist(caveBox);
+// createCardAssist(caveBox);
+createDividers(caveBox);

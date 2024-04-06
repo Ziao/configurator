@@ -7,13 +7,13 @@ export interface SlotConfig {
     even: boolean;
 }
 
-type CreateSlotConfigParams = Partial<Pick<SlotConfig, "length">> &
+type CreateSlotConfigParams = Partial<Pick<SlotConfig, "length" | "amount">> &
     Pick<SlotConfig, "start" | "end" | "thickness" | "even">;
 
 export const createSlotConfig = (config: CreateSlotConfigParams): SlotConfig => {
     return {
         length: 10,
-        amount: 0,
+        amount: 0, // enforce?
         ...config,
     };
 };
