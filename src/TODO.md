@@ -7,8 +7,13 @@
 - [ ] Scale canvas height automatically based on packed parts
 - [ ] See if we can still move to a single object for project definition, dependencies can be resolved during render (such as slots, thicknesses, etc)
 - [x] confirm that drawslots work well with dividers (they dont)
-- [ ] fix rounding of drawslots, dont rely on node index
-- [ ] fix positioning of drawlots when placed on a grid
+- [x] fix rounding of drawslots, dont rely on node index
+- [x] fix positioning of drawlots when placed on a grid
+- [ ] cardassist should take bottom grid into account and produce multiple parts
+- [ ] parts for textile (one piece that unfolds or individual pieces)
+  - One piece = harder to insert BUT may play nicer with cardassist.
+  - Also how do we attach it to the box?
+- [ ] Different materials per component? Or is the textile for a specific component itself a component? And then it is generated based on the component it is meant for?
 
 ## Component types
 - [x] Box
@@ -23,3 +28,4 @@
 ## Project ideas
 - [ ] Modular desk organizer
 - [ ] Modular storage box
+- [ ] Art frame

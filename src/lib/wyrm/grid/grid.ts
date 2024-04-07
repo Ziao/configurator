@@ -1,4 +1,5 @@
 import paper from "paper";
+import { Component } from "../component/types.ts";
 import { Part } from "../part/types.ts";
 
 export interface Grid {
@@ -8,13 +9,20 @@ export interface Grid {
     spacing: number;
 }
 
-export const createGrid = (config: Partial<Grid>): Grid => {
+export const createGrid = (config: Partial<Grid>, component?: Component): Grid => {
     return {
         width: 1,
         height: 1,
         // todo: single offset number for all sides?
-        offsets: [5, 5, 5, 5],
-        spacing: 0,
+        offsets: component
+            ? [
+                  component.materialThickness,
+                  component.materialThickness,
+                  component.materialThickness,
+                  component.materialThickness,
+              ]
+            : [0, 0, 0, 0],
+        spacing: component ? component.materialThickness : 0,
         ...config,
     };
 };

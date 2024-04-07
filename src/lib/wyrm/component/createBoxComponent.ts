@@ -1,7 +1,7 @@
 import { DeepPartial } from "@chakra-ui/react";
-import { createGrid } from "../grid/grid.ts";
+import { createGrid, getGridCellBounds } from "../grid/grid.ts";
 import { createRectanglePart } from "../part/createRectanglePart.ts";
-import { Part, RectanglePart } from "../part/types.ts";
+import { RectanglePart } from "../part/types.ts";
 import { createSlotConfig } from "../slot/slotConfig.ts";
 import { componentGetPart, componentHasPart } from "../util/componentHasPart.ts";
 import { copyAndAlterObject } from "../util/copyAndAlterObject.ts";
@@ -35,7 +35,7 @@ export const createBottom = (boxComponent: BoxComponent, config?: Partial<Rectan
         id: "bottom",
         width: boxComponent.params.width,
         height: boxComponent.params.depth,
-        grid: createGrid({ offsets: [thickness, thickness, thickness, thickness] }),
+        grid: createGrid({}, boxComponent),
 
         ...config,
         slots: [
@@ -91,7 +91,7 @@ export const createLid = (boxComponent: BoxComponent, config?: Partial<Rectangle
         id: "lid",
         width: boxComponent.params.width,
         height: boxComponent.params.depth,
-        grid: createGrid({ offsets: [thickness, thickness, thickness, thickness] }),
+        grid: createGrid({}, boxComponent),
 
         ...config,
     });
@@ -128,16 +128,23 @@ export const createStackable = (boxComponent: BoxComponent, config?: Partial<Rec
 };
 
 export const createCardAssist = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
-    const offset = (boxComponent.materialThickness + 10) * 2;
-    const cardAssist = createRectanglePart({
-        id: "cardAssist",
-        width: boxComponent.params.width - offset,
-        height: boxComponent.params.depth - offset,
-        radius: boxComponent.materialThickness,
-        ...config,
-    });
-    boxComponent.parts.push(cardAssist);
-    return cardAssist;
+    const offset = 10;
+
+    const bottom = componentGetPart<RectanglePart>(boxComponent, "bottom", true);
+    const numAssists = bottom.grid.width * bottom.grid.height;
+    const cellBounds = getGridCellBounds(bottom, [0, 0]); // any cell has the same size, we just need one
+    const assistWidth = cellBounds.width - offset * 2;
+    const assistHeight = cellBounds.height - offset * 2;
+    for (let i = 0; i < numAssists; i++) {
+        const assist = createRectanglePart({
+            id: `cardAssist-${i}`,
+            width: assistWidth,
+            height: assistHeight,
+            radius: boxComponent.materialThickness,
+            ...config,
+        });
+        boxComponent.parts.push(assist);
+    }
 };
 
 /**
@@ -154,7 +161,7 @@ export const createLeftWall = (boxComponent: BoxComponent, config?: Partial<Rect
         id: "leftWall",
         width,
         height,
-        grid: createGrid({ offsets: [thickness, thickness, thickness, thickness] }),
+        grid: createGrid({}, boxComponent),
 
         ...config,
         slots: [
@@ -226,7 +233,7 @@ export const createFrontWall = (boxComponent: BoxComponent, config?: Partial<Rec
         id: "frontWall",
         width,
         height,
-        grid: createGrid({ offsets: [thickness, thickness, thickness, thickness] }),
+        grid: createGrid({}, boxComponent),
         ...config,
         slots: [
             // Bottom slots

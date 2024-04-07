@@ -16,6 +16,9 @@ import { createGrid } from "../../lib/wyrm/grid/grid.ts";
 import { createProject } from "../../lib/wyrm/project/project.ts";
 import seahorseSvg from "./seahorse.svg?raw";
 
+const boxWidth = 285;
+const boxDepth = 285;
+
 export const wyrmspan = createProject({
     name: "WyrmSpan",
     description: "Inlays for the Wyrmspan game box",
@@ -23,72 +26,55 @@ export const wyrmspan = createProject({
 });
 
 // Cave cards
-const caveBox = createBoxComponent(wyrmspan, {
-    name: "Cave Box",
+const dragonBox = createBoxComponent(wyrmspan, {
+    name: "Dragon Box",
     materialThickness: 3.4,
     params: {
-        width: 120,
-        depth: 40,
+        width: boxWidth,
+        depth: 67,
         height: 40,
         slotLength: 10,
     },
 });
 
-createBottom(caveBox, {
-    grid: createGrid({
-        width: 2,
-        height: 1,
-    }),
+createBottom(dragonBox, {
+    grid: createGrid({ width: 3 }, dragonBox),
 });
-createLeftWall(caveBox);
-createRightWall(caveBox);
-createFrontWall(caveBox, {
-    grid: createGrid({
-        width: 2,
-        height: 1,
-        spacing: caveBox.materialThickness,
-        offsets: [
-            caveBox.materialThickness,
-            caveBox.materialThickness,
-            caveBox.materialThickness,
-            caveBox.materialThickness,
-        ],
-    }),
+createLeftWall(dragonBox);
+createRightWall(dragonBox);
+createFrontWall(dragonBox, {
+    grid: createGrid({ width: 3 }, dragonBox),
     features: [
-        createDrawslotFeature({
-            gridCell: [0, 0],
-            params: {
-                width: 30,
-            },
-        }),
-        createGraphicFeature({
-            gridCell: [1, 0],
-            params: {
-                svgString: seahorseSvg,
-                operation: "score",
-                fit: "contain",
-                height: 20,
-                // offset: [-0.025, 0],
-            },
-        }),
+        createDrawslotFeature({ gridCell: [0, 0] }),
+        createDrawslotFeature({ gridCell: [1, 0] }),
+        createDrawslotFeature({ gridCell: [2, 0] }),
     ],
 });
-createBackWall(caveBox, {
-    // features: [createDrawslotFeature({})],
+
+createBackWall(dragonBox, {
+    grid: createGrid({ width: 3 }, dragonBox),
+    features: [
+        createDrawslotFeature({ gridCell: [0, 0] }),
+        createDrawslotFeature({ gridCell: [1, 0] }),
+        createDrawslotFeature({ gridCell: [2, 0] }),
+    ],
 });
-// createLid(caveBox, {
-//     features: [
-//         createGraphicFeature({
-//             params: {
-//                 svgString: seahorseSvg,
-//                 operation: "cut",
-//                 fit: "center",
-//                 height: 30,
-//                 offset: [-0.025, 0],
-//             },
-//         }),
-//     ],
-// });
-createInnerLid(caveBox);
-createCardAssist(caveBox);
-createDividers(caveBox);
+
+createLid(dragonBox, {
+    //     features: [
+    //         createGraphicFeature({
+    //             params: {
+    //                 svgString: seahorseSvg,
+    //                 operation: "cut",
+    //                 fit: "center",
+    //                 height: 30,
+    //                 offset: [-0.025, 0],
+    //             },
+    //         }),
+    //     ],
+});
+createInnerLid(dragonBox);
+
+createDividers(dragonBox);
+
+createCardAssist(dragonBox);
