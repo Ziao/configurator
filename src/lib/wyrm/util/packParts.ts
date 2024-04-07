@@ -1,6 +1,6 @@
 import pack from "bin-pack-with-constraints";
 
-export const packParts = (groups: paper.Group[], maxWidth: number, padding = 10) => {
+export const packParts = (groups: paper.Group[], maxWidth: number, padding = 5) => {
     const packableItems = groups.map((group) => ({
         width: group.bounds.width + padding,
         height: group.bounds.height + padding,

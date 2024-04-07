@@ -91,6 +91,7 @@ export const renderGraphicFeature = (component: Component, part: Part, feature: 
         const shape = group.children[0] as paper.PathItem;
         const newShape = shape.subtract(graphic);
         shape.replaceWith(newShape);
+        graphic.remove();
     } else if (feature.params.operation === "score") {
         graphic.fillColor = null;
         graphic.strokeWidth = 1;
