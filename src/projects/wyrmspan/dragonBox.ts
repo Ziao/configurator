@@ -55,7 +55,7 @@ export const createDragonBox = (project: Project) => {
                     svgString: dragons,
                     operation: "engrave",
                     fit: "center",
-                    height: 18,
+                    height: 15,
                 },
             }),
         ],
