@@ -14,7 +14,17 @@ export interface GraphicFeature extends BaseFeature {
         // svgUrl?: string; // todo, makes async a bit annoying
         // imageUrl?: string; // todo, may be easier to implement than svgUrl
         operation: "cut" | "engrave" | "score";
-        fit: "contain" | "cover" | "center";
+        fit?: "contain" | "cover";
+        alignment?:
+            | "top"
+            | "top-left"
+            | "top-right"
+            | "left"
+            | "right"
+            | "bottom"
+            | "bottom-left"
+            | "bottom-right"
+            | "center";
         rotation?: number;
         mirror?: boolean;
 
@@ -38,7 +48,7 @@ export const createGraphicFeature = (config?: DeepPartial<GraphicFeature>): Grap
     ...config,
     params: {
         operation: "score",
-        fit: "center",
+        alignment: "center",
         ...config?.params,
     },
 });
@@ -60,8 +70,6 @@ export const renderGraphicFeature = (component: Component, part: Part, feature: 
     } else if (feature.params.fit === "cover") {
         needsMask = true;
         graphic.fitBounds(bounds, true);
-    } else if (feature.params.fit === "center") {
-        graphic.position = bounds.center;
     }
 
     // A bunch of simple transformations
@@ -73,6 +81,27 @@ export const renderGraphicFeature = (component: Component, part: Part, feature: 
     if (feature.params.offset) {
         graphic.position.x += feature.params.offset[0] * bounds.width;
         graphic.position.y += feature.params.offset[1] * bounds.height;
+    }
+
+    // Alignment
+    if (feature.params.alignment === "top-left") {
+        graphic.bounds.topLeft = bounds.topLeft;
+    } else if (feature.params.alignment === "top") {
+        graphic.bounds.topCenter = bounds.topCenter;
+    } else if (feature.params.alignment === "top-right") {
+        graphic.bounds.topRight = bounds.topRight;
+    } else if (feature.params.alignment === "left") {
+        graphic.bounds.leftCenter = bounds.leftCenter;
+    } else if (feature.params.alignment === "center") {
+        graphic.position = bounds.center;
+    } else if (feature.params.alignment === "right") {
+        graphic.bounds.rightCenter = bounds.rightCenter;
+    } else if (feature.params.alignment === "bottom-left") {
+        graphic.bounds.bottomLeft = bounds.bottomLeft;
+    } else if (feature.params.alignment === "bottom") {
+        graphic.bounds.bottomCenter = bounds.bottomCenter;
+    } else if (feature.params.alignment === "bottom-right") {
+        graphic.bounds.bottomRight = bounds.bottomRight;
     }
 
     // If a mask is needed (eg, cover), create it and intersect it with the graphic

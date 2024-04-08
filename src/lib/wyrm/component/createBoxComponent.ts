@@ -86,7 +86,6 @@ export const createClosedTop = (boxComponent: BoxComponent, config?: Partial<Rec
 };
 
 export const createLid = (boxComponent: BoxComponent, config?: Partial<RectanglePart>) => {
-    const thickness = boxComponent.materialThickness;
     const lid = createRectanglePart({
         id: "lid",
         width: boxComponent.params.width,
@@ -180,6 +179,7 @@ export const createLeftWall = (boxComponent: BoxComponent, config?: Partial<Rect
                 thickness,
                 even: true,
                 length: boxComponent.params.slotLength,
+                minAmount: 3,
             }),
             createSlotConfig({
                 start: [width - offset, componentHasPart(boxComponent, "closedTop") ? thickness : 0],
@@ -187,6 +187,7 @@ export const createLeftWall = (boxComponent: BoxComponent, config?: Partial<Rect
                 thickness,
                 even: true,
                 length: boxComponent.params.slotLength,
+                minAmount: 3,
             }),
             ...(config?.slots ?? []),
         ],
@@ -251,6 +252,7 @@ export const createFrontWall = (boxComponent: BoxComponent, config?: Partial<Rec
                 thickness,
                 even: false,
                 length: boxComponent.params.slotLength,
+                minAmount: 3,
             }),
             createSlotConfig({
                 start: [width - offset, componentHasPart(boxComponent, "closedTop") ? thickness : 0],
@@ -258,6 +260,7 @@ export const createFrontWall = (boxComponent: BoxComponent, config?: Partial<Rec
                 thickness,
                 even: false,
                 length: boxComponent.params.slotLength,
+                minAmount: 3,
             }),
             ...(config?.slots ?? []),
         ],

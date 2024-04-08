@@ -2,44 +2,52 @@ import {
     createBackWall,
     createBottom,
     createBoxComponent,
+    createCardAssist,
     createFrontWall,
     createInnerLid,
     createLeftWall,
     createLid,
     createRightWall,
 } from "../../lib/wyrm/component/createBoxComponent.ts";
+import { createDrawslotFeature } from "../../lib/wyrm/feature/drawslotFeature.ts";
 import { createGraphicFeature } from "../../lib/wyrm/feature/graphicFeature.ts";
 import { Project } from "../../lib/wyrm/project/project.ts";
 import { generateLidOrnaments } from "./generateLidOrnaments.ts";
-import eggs from "./graphics/egg.svg?raw";
+import misc from "./graphics/misc.svg?raw";
 
-// Dragons, 4x4 stacks
+// Miscs, 4x4 stacks
 // Cards (with sleeve) are 60x90
 // We pretend the material is 4mm thick, that should add enough margin on all sides
 // We have about 3.5mm of clearance vertically, lets round it down to 3.4 because of the feet
 // Gives you 24mm x 4 for the stack cards, 96mm total
-export const createEggBox = (project: Project) => {
-    const eggBox = createBoxComponent(project, {
-        name: "Egg Box",
+export const createMiscBox = (project: Project) => {
+    const miscBox = createBoxComponent(project, {
+        name: "Misc Box",
         materialThickness: 3,
         params: {
-            width: 285 - 192, // Box width - width of dragon box
-            depth: 132, // Same as dragon box
-            height: 34, // Same as dragon box
+            width: 98, // 90 + 4 (material) * 2
+            depth: 68, // 60  + 4 (material) * 2
+            height: 34,
             slotLength: 10,
         },
     });
 
-    createBottom(eggBox, {});
-    createLeftWall(eggBox);
-    createRightWall(eggBox);
-    createFrontWall(eggBox, {});
-    createBackWall(eggBox, {});
-    createLid(eggBox, {
+    createBottom(miscBox, {});
+    createLeftWall(miscBox);
+    createRightWall(miscBox);
+    createFrontWall(miscBox, {
+        features: [createDrawslotFeature({ gridCell: [0, 0] }), createDrawslotFeature({ gridCell: [1, 0] })],
+    });
+
+    createBackWall(miscBox, {
+        features: [createDrawslotFeature({ gridCell: [0, 0] }), createDrawslotFeature({ gridCell: [1, 0] })],
+    });
+
+    createLid(miscBox, {
         features: [
             createGraphicFeature({
                 params: {
-                    svgString: eggs,
+                    svgString: misc,
                     operation: "engrave",
                     height: 20,
                 },
@@ -47,7 +55,7 @@ export const createEggBox = (project: Project) => {
             ...generateLidOrnaments(),
         ],
     });
-    createInnerLid(eggBox, {});
-
-    return eggBox;
+    createInnerLid(miscBox, {});
+    createCardAssist(miscBox);
+    return miscBox;
 };

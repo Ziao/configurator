@@ -56,6 +56,7 @@ const renderSlots = (part: Part, group: paper.Group) => {
             thickness: slot.thickness,
             slotLength: slot.length,
             amount: slot.amount,
+            minAmount: slot.minAmount,
         });
     });
 };
