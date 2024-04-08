@@ -29,6 +29,8 @@ export const renderComponent = (project: Project, component: Component) => {
 
     console.log("Packing parts ");
     packParts(partGroups, project.sheetWidth);
+
+    return partGroups;
 };
 
 const renderBaseShape = (project: Project, component: Component, part: Part) => {
@@ -41,6 +43,8 @@ const renderBaseShape = (project: Project, component: Component, part: Part) => 
         default:
             throw new Error(`⚠️ Unknown part type: ${part.type}`);
     }
+
+    group.name = part.id;
 
     return group;
 };

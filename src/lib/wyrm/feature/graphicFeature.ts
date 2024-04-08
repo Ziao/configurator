@@ -53,6 +53,8 @@ export const createGraphicFeature = (config?: DeepPartial<GraphicFeature>): Grap
     },
 });
 
+let addBrightness = 0;
+
 export const renderGraphicFeature = (component: Component, part: Part, feature: GraphicFeature, group: paper.Group) => {
     // todo: adjust these checks once we support other types of graphic sources
     if (!feature.params.svgString) throw new Error("Feature does not have svgString");
@@ -114,6 +116,8 @@ export const renderGraphicFeature = (component: Component, part: Part, feature: 
 
     if (feature.params.operation === "engrave") {
         graphic.fillColor = new paper.Color(Color.engrave);
+        addBrightness++;
+        graphic.fillColor.green = addBrightness * 0.02;
         graphic.strokeWidth = 0;
         group.addChild(graphic);
     } else if (feature.params.operation === "cut") {

@@ -3,8 +3,8 @@ export interface SlotConfig {
     end: [number, number];
     length: number;
     thickness: number;
-    amount: number;
-    minAmount: number;
+    amount?: number;
+    minAmount?: number;
     even: boolean;
 }
 

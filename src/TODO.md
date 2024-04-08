@@ -25,6 +25,7 @@
 - [ ] punchSlotsNew rename and take slotConfig param
 - [ ] allow any graphic to be masked with a param
 - [ ] figure out a way to NOT need a lid when a box will have a stack on top, the dividers currently reach the box height
+- [ ] Allow selecting which components and even parts you want to render -> also then pack everything again
 
 
 ## Component types
