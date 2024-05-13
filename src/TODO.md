@@ -24,9 +24,10 @@
 - [x] Min 3 slots on walls for stability
 - [ ] punchSlotsNew rename and take slotConfig param
 - [ ] allow any graphic to be masked with a param
-- [ ] figure out a way to NOT need a lid when a box will have a stack on top, the dividers currently reach the box height
+- [ ] figure out a way to NOT need a lid when a box will have a stack on top, the dividers currently reach the box height -> then again, if we go with the silicone feet route, it doesnt matter
 - [ ] Allow selecting which components and even parts you want to render -> also then pack everything again
-
+- [ ] Use packer2, and spit out multiple svg files when things don't fit, also use proper sheet height
+- [ ] Faux leather pull tabs -> cut a small hole in the walls for a rivet?
 
 ## Component types
 - [x] Box

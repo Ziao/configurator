@@ -6,7 +6,7 @@ import { downloadSvg } from "../../lib/engine/util/downloadSvg.ts";
 import { Component } from "../../lib/wyrm/component/types.ts";
 import { Project } from "../../lib/wyrm/project/project.ts";
 import { renderComponent } from "../../lib/wyrm/renderers/renderComponent.ts";
-import { packParts } from "../../lib/wyrm/util/packParts.ts";
+import { packParts, packParts2 } from "../../lib/wyrm/util/packParts.ts";
 
 // 1px = 1mm, which is is a DPI of 25.4
 const zoomMultiplier = 72 / 25.4;
@@ -34,18 +34,19 @@ export const ComponentRenderer: FC<ComponentRendererProps> = ({ project, compone
     useEffect(() => {
         paper.view.viewSize = new paper.Size(project.sheetWidth * zoomMultiplier, 5000);
         paper.project.activeLayer.removeChildren();
-        // renderComponent(project, component);
+        renderComponent(project, component);
 
         // Hacky way to get all lids
-        const lids: paper.Group[] = [];
-        for (const component of project.components) {
-            const groups = renderComponent(project, component);
-            groups.forEach((component) => {
-                if (component.name === "lid") lids.push(component);
-                else component.remove();
-            });
-        }
-        packParts(lids, project.sheetWidth);
+        // const lids: paper.Group[] = [];
+        // for (const component of project.components) {
+        //     const groups = renderComponent(project, component);
+        //     groups.forEach((component) => {
+        //         if (component.name === "lid") lids.push(component);
+        //         else component.remove();
+        //     });
+        // }
+        // packParts(lids, project.sheetWidth);
+        // packParts2(lids, project.sheetWidth);
     }, [project, component]);
 
     return (
