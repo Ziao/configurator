@@ -15,7 +15,7 @@ export const Viewer: FC<ViewerProps> = ({}) => {
 
     useEffect(() => {
         setValue("projectId", projects[0]?.id);
-        setValue("componentId", projects[0]?.components[1]?.id);
+        setValue("componentId", projects[0]?.components[0]?.id);
     }, [setValue]);
 
     return (

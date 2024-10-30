@@ -13,6 +13,7 @@ import { createTokensTopBox } from "./tokensTopBox.ts";
 // const boxDepth = 285;
 
 export const wyrmspan = createProject({
+    id: "wyrmspan",
     name: "WyrmSpan",
     description: "Inlays for the Wyrmspan game box",
     sheetWidth: 390,

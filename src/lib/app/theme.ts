@@ -58,7 +58,7 @@ export const theme = extendTheme({
         Button: {
             baseStyle: {
                 cursor: "pointer",
-                borderRadius: "full",
+                // borderRadius: "full",
                 fontWeight: "normal",
             },
             sizes: {

@@ -1,5 +1,5 @@
 import { Box, Container, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
-import { InboxIcon } from "@heroicons/react/24/outline";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 import { FC } from "react";
 
 interface NavbarProps {}
@@ -8,9 +8,9 @@ export const Navbar: FC<NavbarProps> = ({}) => {
         <Box background={"white"} pos={"sticky"} top={0} zIndex={20} shadow={"sm"}>
             <Container>
                 <HStack height={16}>
-                    <Icon as={InboxIcon} boxSize={6} />
+                    <Icon as={WrenchScrewdriverIcon} boxSize={6} />
                     <Text fontWeight={"bold"} mr={4}>
-                        WoodWyrm designer
+                        3D Lab Configurator
                     </Text>
 
                     {/*<Link to={"/"}>Projects</Link>*/}
