@@ -74,7 +74,7 @@ const drawRow = (innerRadius: number, height: number, segments: number, paddingA
 const drawNumbers = (radius: number, font: string, fontSize: number, amount: number) => {
     const group = new Group();
 
-    const numbers = Array.from({ length: amount }, (_, i) => i);
+    const numbers = Array.from({ length: amount }, (_, i) => i + 1);
 
     // Shuffle the numbers
     for (let i = numbers.length - 1; i > 0; i--) {
