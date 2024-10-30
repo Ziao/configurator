@@ -1,9 +1,9 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, createHashRouter } from "react-router-dom";
 import { Dice } from "../pages/dice.tsx";
 import { Project } from "../pages/project.tsx";
 import { Projects } from "../pages/projects.tsx";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         path: "/",
         element: <Dice />,
