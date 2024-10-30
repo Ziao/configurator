@@ -12,7 +12,7 @@ interface Props {}
 export const Dice: FC<Props> = () => {
     const { watch, register, setValue, getValues } = useForm<FormShape>({
         defaultValues: {
-            font: "verdana",
+            font: "courier",
             fontSize: 5,
             innerRadius: 12,
             outerRadius: 50,
@@ -20,7 +20,7 @@ export const Dice: FC<Props> = () => {
             row2Count: 12,
             row3Count: 20,
             outerPadding: 2,
-            innerPadding: 15,
+            innerPadding: 8,
             rowMarginAngle: 4,
             rowMargin: 2,
         },
