@@ -1,4 +1,3 @@
-import { start } from "happy-dom/lib/PropertySymbol.d.ts.js";
 import paper, { Color, Group, Path, Point, PointText } from "paper";
 import { FormShape } from "../parts/dice/formShape.ts";
 

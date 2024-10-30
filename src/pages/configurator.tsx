@@ -1,12 +1,10 @@
-import { Button, Container, Heading, HStack, Icon, Stack } from "@chakra-ui/react";
-import { DocumentPlusIcon, PlusIcon, WrenchIcon, WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
+import { Button, Container, Heading, HStack, Stack } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { v4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 import { DefaultLayout } from "../components/layouts/DefaultLayout.tsx";
-import { diceAtom, DicePart, Part, SavedPart } from "../parts/dice/dicePart.ts";
+import { DicePart, Part, SavedPart } from "../parts/dice/dicePart.ts";
 
 export const savedPartsAtom = atomWithStorage<SavedPart[]>("savedParts", []);
 export const availableParts = [DicePart];
