@@ -1,4 +1,15 @@
-import { chakra, Container, HStack, Input, Stack, FormLabel, FormControl, Button, Divider } from "@chakra-ui/react";
+import {
+    chakra,
+    Container,
+    HStack,
+    Input,
+    Stack,
+    FormLabel,
+    FormControl,
+    Button,
+    Divider,
+    useToast,
+} from "@chakra-ui/react";
 import { FC, useEffect, useLayoutEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useEffectOnce } from "react-use";
@@ -30,8 +41,18 @@ export const Dice: FC<Props> = () => {
 
     // usePaper(canvas.current);
 
+    const errorToast = useToast({});
+
     useEffect(() => {
-        drawDice(watch());
+        try {
+            drawDice(watch());
+        } catch (e) {
+            errorToast({
+                title: "Er is een fout opgetreden",
+                description: (e as Error).message,
+                status: "error",
+            });
+        }
     }, [watch()]);
 
     return (
