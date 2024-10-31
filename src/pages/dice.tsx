@@ -9,7 +9,9 @@ import {
     Button,
     Divider,
     useToast,
+    Icon,
 } from "@chakra-ui/react";
+import { CloudArrowDownIcon, DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import { FC, useEffect, useLayoutEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useEffectOnce } from "react-use";
@@ -214,6 +216,7 @@ export const Dice: FC<Props> = () => {
                             alignSelf={"end"}
                             colorScheme={"teal"}
                             onClick={() => downloadSvg("dice.svg")}
+                            leftIcon={<Icon as={DocumentArrowDownIcon} boxSize={5} />}
                         >
                             Download svg
                         </Button>
